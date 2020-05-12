@@ -27,17 +27,25 @@ class Climatix(object):
         climatix_auth = (self.__config["climatix_name"], self.__config["climatix_pass"])
         return climatix_auth
 
-    def explore_view_node(self, oa_param, print_indent):
+    def explore_view_node(self, oa_param, prefix):
         climatix_params = {"fn": "getviewnode"}
         climatix_params.update({"oa": oa_param})
         climatix_params.update({"pin": self.__config["climatix_pin"]})
+        climatix_params.update({"lng": "eng"})
         get_view_node = requests.get(self.__config["climatix_url"], auth=self.climatix_auth(), params=climatix_params)
         view_node_data = get_view_node.json()
         new_oa_list = []
-        print("{} --==##  {}  ##==--".format(" " * print_indent, view_node_data["values"][oa_param]["descr"]))
+        print("{} --==##  {}  ##==--".format(prefix, view_node_data["values"][oa_param]["descr"]))
         for cnt, element in enumerate(view_node_data["values"][oa_param]["items"]):
-            print(" " * print_indent, cnt, element)
+            printout = []
+            printout.append(element["descr"])
+            if "oa" in element.keys():
+                for key in element["oa"].keys():
+                    printout.append("oa: " + key)
+                    break
             if "link" in element.keys():
+                printout.append("link: " + element["link"])
                 if element["link"] not in ["NgAAAAAA", "NgASUgAA", "NgAwUgAA", "NgAxUgAA", "NgA6UgAA", "NgAcUgAA", "NgAJUgAA"]:
                     new_oa_list.append(element["link"])
+            print("{} {} {}".format(prefix, cnt, printout))
         return new_oa_list
