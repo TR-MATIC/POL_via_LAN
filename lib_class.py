@@ -45,7 +45,9 @@ class Climatix(object):
                     break
             if "link" in element.keys():
                 printout.append("link: " + element["link"])
-                if element["link"] not in ["NgAAAAAA", "NgASUgAA", "NgAwUgAA", "NgAxUgAA", "NgA6UgAA", "NgAcUgAA", "NgAJUgAA"]:
+                if element["link"] not in ["NgAAAAAA", "NgASUgAA", "NgAwUgAA", "NgAxUgAA", "NgA6UgAA", "NgAcUgAA",
+                                           "NgAJUgAA", "NgBEUgAA", "NgB2UgAA", "NgCAUgAA", "NgB3UgAA", "NgCKUgAA",
+                                           "NgBsUgAA"]:
                     new_oa_list.append(element["link"])
             print("{} {} {}".format(prefix, cnt, printout))
         return new_oa_list
